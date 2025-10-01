@@ -39,7 +39,7 @@ export default function NewNotePage() {
   };
 
   return (
-    <div className="relative flex flex-col items-center justify-start min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-500">
+    <div className="relative flex flex-col items-center justify-start min-h-screen bg-[url('/bg-dark.png')] bg-cover bg-center bg-gray-100 dark:bg-gray-900 transition-colors duration-500">
       {/* Table lamp horizontal strip */}
       {/* <div className="absolute top-0 w-full h-16 bg-yellow-100 dark:bg-yellow-700 opacity-20 dark:opacity-50 shadow-md"></div> */}
 
