@@ -1,55 +1,76 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
 
 export default function EditNotePage() {
-    const router = useRouter();
-    const params = useParams();
-    const noteId = params.id as string;
+  const router = useRouter();
+  const params = useParams();
+  const noteId = params.id as string;
 
-    const [note, setNote] = useState({
-        title: "",
-        content: "",
-    });
+  const [note, setNote] = useState({
+    title: "",
+    content: "",
+  });
 
-    useEffect(()=>{
-        const fetchNote = async()=>{
-            try {
-                const res = await axios.get(`/api/notes/${noteId}`, {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("token")}`
-                    },
-                });
+  useEffect(() => {
+    // const fetchNote = async()=>{
+    //     try {
+    //         const res = await axios.get(`/api/notes/${noteId}`, {
+    //             headers: {
+    //                 Authorization: `Bearer ${localStorage.getItem("token")}`
+    //             },
+    //         });
 
-                setNote(res.data);
-            } catch(err) {
-                console.error("Error fetching note:", err);
-            }
-        };
-        fetchNote();
-    }, [noteId]);
+    //         setNote(res.data);
+    //     } catch(err) {
+    //         console.error("Error fetching note:", err);
+    //     }
+    // };
+    const fetchNote = async () => {
+      try {
+        const res = await axios.get(`/api/notes/${noteId}`); // cookies sent automatically
+        setNote(res.data);
+      } catch (err: any) {
+        console.error("Error fetching note:", err.response?.data || err);
+      }
+    };
+    fetchNote();
+  }, [noteId]);
 
-    const handleUpdate = async ()=> {
-        try {
-            await axios.put(`/api/notes/${noteId}`, {
-                title: note.title,
-                content: note.content,
-            },
-            {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`
-                },
-            }
-           );
-           router.push("/notes");
-        } catch(error) {
-            confirm(`Error updating note: ${error}`);
-        }
+  const handleUpdate = async () => {
+    // try {
+    //   await axios.put(
+    //     `/api/notes/${noteId}`,
+    //     {
+    //       title: note.title,
+    //       content: note.content,
+    //     },
+    //     {
+    //       headers: {
+    //         Authorization: `Bearer ${localStorage.getItem("token")}`,
+    //       },
+    //     }
+    //   );
+    //   router.push("/notes");
+    // } catch (error) {
+    //   confirm(`Error updating note: ${error}`);
+    // }
+    try {
+        await axios.put(`/api/notes/${noteId}`, {
+            title: note.title,
+            content: note.content,
+        }); // cookies sent automatically
+        router.push("/notes");
+    } catch (err: any) {
+        console.error("Error updating note:", err.response?.data || err);
+        alert(`Error updating note: ${err.response?.data?.error || err.message}`);
     }
+  };
 
-    return (
+  return (
     <div className="flex flex-col items-center justify-center min-h-screen p-6">
       <h1 className="text-xl font-bold mb-4">Edit Note</h1>
 

@@ -1,7 +1,7 @@
 "use client";
 
 import React, {useState} from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage(){
     const router = useRouter();
@@ -26,13 +26,13 @@ export default function LoginPage(){
                 body: JSON.stringify(user),
             });
 
+            
             const data = await res.json();
+            console.log("Login API response:", data, res.ok);
 
             if(res.ok){
-                // Save token to local storage
-                localStorage.setItem("token", data.token);
-
                 // Redirect to notes page
+                console.log("Redirecting to notes page");
                 router.push("/notes");
 
             }

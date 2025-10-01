@@ -7,6 +7,7 @@ export default function ResetPasswordPage() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const token = searchParams.get("token");
+    const userId = searchParams.get("id");
 
     const [password, setPassword] = useState("");
     const [Reenter, setReenter] = useState("");
@@ -32,7 +33,7 @@ export default function ResetPasswordPage() {
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({token, password}),
+                body: JSON.stringify({token, userId, newPassword: password}),
             });
 
             const data = await res.json();

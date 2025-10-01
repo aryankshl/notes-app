@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 
 export default function SignupPage() {
@@ -29,11 +29,14 @@ export default function SignupPage() {
                 body: JSON.stringify(user),
             });
 
+            // const text = res.text();
+            // console.log(text);
+
             const data = await res.json();
             if(res.ok){
                 setSuccess(data.message);
                 //Redirect to login page after 2 seconds
-                setTimeout(()=> router.push("/login"), 2000);
+                // setTimeout(()=> router.push("/verify"), 2000);
             }
             else{
                 setError(data.error || "Something went wrong");
