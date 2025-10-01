@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import DarkModeToggle from "./components/DarkModeToggle";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,16 +20,42 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+      <head />
+      <body className="min-h-screen bg-[url('/bg-dark.png')] bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 relative">
+        {/* Lamp strip */}
+        {/* <div className="absolute top-0 w-full h-16 bg-yellow-100 dark:bg-yellow-700 opacity-20 dark:opacity-50 shadow-md z-0"></div> */}
+
+        {/* <header className="p-4 flex justify-end relative z-20">
+          <DarkModeToggle />
+        </header> */}
+
+        <main className="relative z-10">{children}</main>
       </body>
     </html>
   );
 }
+
+// import "./globals.css";
+// import ThemeProvider from "./components/ThemeProvider";
+
+// export const metadata = {
+//   title: "My Notes App",
+//   description: "Next.js + Tailwind with Dark Mode",
+// };
+
+// export default function RootLayout({ children }: { children: React.ReactNode }) {
+//   return (
+//     <html lang="en">
+//       <body className="min-h-screen transition-colors duration-500">
+//         <ThemeProvider>
+//           {children}
+//         </ThemeProvider>
+//       </body>
+//     </html>
+//   );
+// }
+
+

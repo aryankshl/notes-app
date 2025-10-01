@@ -6,7 +6,9 @@ import { useSearchParams, useRouter } from "next/navigation";
 export default function VerifyPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [status, setStatus] = useState<"loading" | "success" | "error">("loading");
+  const [status, setStatus] = useState<"loading" | "success" | "error">(
+    "loading"
+  );
   const [message, setMessage] = useState("");
 
   useEffect(() => {
@@ -42,10 +44,23 @@ export default function VerifyPage() {
   }, [searchParams, router]);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4">
-      {status === "loading" && <p>Verifying your email...</p>}
-      {status === "success" && <p className="text-green-500">{message}</p>}
-      {status === "error" && <p className="text-red-500">{message}</p>}
+    <div className="relative flex flex-col items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-500">
+      {/* Table lamp horizontal strip */}
+      {/* <div className="absolute top-0 w-full h-16 bg-yellow-100 dark:bg-yellow-700 opacity-20 dark:opacity-50 shadow-md"></div> */}
+
+      <div className="relative z-10 w-full max-w-md p-8 mt-16 bg-white dark:bg-gray-800 rounded-xl shadow-lg text-center">
+        {status === "loading" && (
+          <p className="text-gray-800 dark:text-gray-100 font-medium">
+            Verifying your email...
+          </p>
+        )}
+        {status === "success" && (
+          <p className="text-green-400 font-medium">{message}</p>
+        )}
+        {status === "error" && (
+          <p className="text-red-500 font-medium">{message}</p>
+        )}
+      </div>
     </div>
   );
 }
