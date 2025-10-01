@@ -25,13 +25,43 @@ export async function POST(req: NextRequest){
         }
 
         const isValid = await bcrypt.compare(token, tokenDoc.token);
+        console.log(`token from url ${token}`)
+        console.log(`token from db ${tokenDoc.token}`)
+        console.log(`isValid ${isValid}`)
         if(!isValid){
             return NextResponse.json({error: "Invalid token"}, {status: 400});
         }
 
+        const user = await User.findById(userId);
+        if(!user){
+            return NextResponse.json({error: "User not found"}, {status: 404});
+        }
+        
+        // Check if new password is the same as any of the last 3 passwords used by the user
+        const allHashes = [user.password, ...user.oldPasswords];
+
+        for (const hash of allHashes) {
+            const match = await bcrypt.compare(newPassword, hash);
+            if(match){
+                return NextResponse.json({
+                    error: "You cannot reuse your last 3 passwords."
+                }, {status: 400});
+            }
+        }
+
         // Hash new password
         const hashedPassword = await bcrypt.hash(newPassword, 10);
-        await User.findByIdAndUpdate(userId, {password: hashedPassword});
+
+        // Move current password to oldPasswords
+        user.oldPasswords.unshift(user.password);
+        if(user.oldPasswords.length>3) {
+            user.oldPasswords.pop();
+        }
+
+        // Update users password
+        user.password = hashedPassword;
+        await user.save();
+        // await User.findByIdAndUpdate(userId, {password: hashedPassword});
 
         // Delete the token
         await tokenDoc.deleteOne();

@@ -24,6 +24,9 @@ export async function POST(req: NextRequest ){
         const resetToken = crypto.randomBytes(32).toString("hex");
         const hashedToken = await bcrypt.hash(resetToken, 10);
 
+        // Delete any existing reset tokens for this user
+        await Token.deleteMany({ userId: user._id, type: "reset" });
+
         await Token.create({
             userId: user._id,
             type: "reset",

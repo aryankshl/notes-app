@@ -96,6 +96,15 @@ export default function NotesPage() {
     }
   };
 
+  const handleLogout = async() =>{
+    await fetch("/api/auth/logout", {
+      method: "POST",
+      credentials: "include"  // this ensures cookies are sent with the request
+    });
+
+    window.location.href = "/login";
+  }
+
   return (
     <div>
       <h1>My Notes</h1>
@@ -104,9 +113,16 @@ export default function NotesPage() {
 
       <button
         onClick={() => router.push("/notes/new")}
-        className="mb-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+        className="mb-4 bg-blue-500 cursor-pointer text-white px-4 py-2 rounded hover:bg-blue-600"
       >
         + Add Note
+      </button>
+
+      <button
+        onClick={handleLogout}
+        className="mb-4 ml-4 cursor-pointer bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600"
+      >
+        Logout
       </button>
 
       <div className="w-full max-w-md space-y-4">
@@ -121,13 +137,13 @@ export default function NotesPage() {
             </div>
             <div className="flex gap-2">
               <button
-                className="text-blue-500"
+                className="text-blue-500 p-4 mr-4 cursor-pointer hover:font-semibold"
                 onClick={() => router.push(`/notes/${note._id}`)}
               >
                 Edit
               </button>
               <button
-                className="text-red-500"
+                className="text-red-500 p-4 mr-4 cursor-pointer hover:font-semibold"
                 onClick={() => handleDelete(note._id)}
               >
                 Delete
