@@ -35,7 +35,7 @@ export async function POST(req: NextRequest){
 
         // Generate JWT token for session
         const token = jwt.sign(
-            {userId: user._id},
+            {userId: user._id, isAdmin: user.isAdmin},
             process.env.TOKEN_SECRET!,
             {expiresIn: "7d"}
         );
@@ -43,7 +43,7 @@ export async function POST(req: NextRequest){
         // Set token in HTTP-only cookie
         const response = NextResponse.json({
             message: "Login successful",
-            user: {id: user._id, username: user.username, email: user.email},
+            user: {id: user._id, username: user.username, email: user.email, isAdmin: user.isAdmin},
         });
 
         response.cookies.set({

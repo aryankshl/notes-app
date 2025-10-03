@@ -31,10 +31,14 @@ export default function LoginPage(){
             console.log("Login API response:", data, res.ok);
 
             if(res.ok){
-                // Redirect to notes page
-                console.log("Redirecting to notes page");
-                router.push("/notes");
-
+                // Redirect based on role
+                const {user: loggedInUser} = data;
+                if(loggedInUser.isAdmin){
+                    router.push("/admin/notes"); // Admin dashboard
+                }
+                else{
+                    router.push("/notes"); // Normal user dashboard
+                }
             }
             else{
                 setError(data.error || "Invalid credentials");

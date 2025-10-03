@@ -20,6 +20,13 @@ export default function HomePage() {
         >
           Sign Up
         </a>
+
+        <a
+          href="/login" // can use same login page, just differentiate by admin field
+          className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+        >
+          Admin Login
+        </a>
       </div>
     </div>
   );

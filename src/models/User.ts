@@ -7,6 +7,7 @@ export interface IUser extends Document {
     oldPasswords: [string];
     isVerified: boolean;
     createdAt: Date;
+    isAdmin: boolean;
 }
 
 const UserSchema: Schema<IUser> = new Schema(
@@ -34,6 +35,10 @@ const UserSchema: Schema<IUser> = new Schema(
             default: [],
         },
         isVerified: {
+            type: Boolean,
+            default: false,
+        },
+        isAdmin: {
             type: Boolean,
             default: false,
         },
