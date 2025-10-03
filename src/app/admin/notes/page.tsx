@@ -11,7 +11,7 @@ export default function AdminNotesPage() {
     useEffect(() => {
         const fetchNotes = async() => {
             try{
-                const res = await axios.get("/api/admin/notes", {
+                const res = await axios.get("/api/auth/admin/notes", {
                     withCredentials: true,
                 });
                 setNotes(res.data.notes);
